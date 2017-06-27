@@ -1,0 +1,21 @@
+type: object
+properties:
+  id: string
+  createdAt: datetime
+  email: string
+  name?: string
+  location?: string
+  role: string
+  teams?:
+    type: array
+    items:
+      type: object
+      properties:
+        teamId: string
+        role: string
+  preferredLaunguage?: string
+  languages?: array
+  facebook?: string
+  twitter?: string
+  google?: string
+  tokens?: array

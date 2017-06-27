@@ -1,0 +1,18 @@
+[
+  {
+    "id": "b83ff4b178da7ba666f484d0",
+    "createdAt": "2017-06-27T09:37:58+00:00",
+    "email": "example@smart-vote.org",
+    "name": "John Smith",
+    "location": "Illinois",
+    "role": "user",
+    "teams": [
+      {
+        "teamId": "19fd82fe52b96ef618db1225",
+        "role": "owner"
+      }
+    ],
+    "preferredLaunguage": "EN",
+    "languages": [ "EN", "ES" ]
+  }
+]

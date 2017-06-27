@@ -1,0 +1,378 @@
+#%RAML 1.0
+version: v1
+baseUri: https://api.smart-vote.org/api/{version}
+title: Smart Vote
+types:
+  User: !include schemas/user-schema.raml
+  Candidate: !include schemas/candidate-schema.raml
+  CandidateIssue: !include schemas/candidate-issue-schema.raml
+  CandidateIssueSection: !include schemas/candidate-issue-section-schema.raml
+  Issue: !include schemas/issue-schema.raml
+  Error: !include schemas/error-schema.raml
+  Suggestion: !include schemas/suggestion-schema.raml
+
+securitySchemes:
+  oauth_2_0: !include securitySchemes/oauth2_0.raml
+
+traits:
+  pageable: !include traits/pageable.raml
+
+/ping:
+  description: Used for testing status of API.
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "ping" : "pong"
+              }
+/candidates:
+  post:
+    securedBy: [ oauth_2_0 ]
+    description: Create a new candidate. Requesting user must be a site administrator.
+    body:
+      application/json:
+        type: Candidate
+        example: !include examples/candidate-example.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: Candidate
+            example: !include examples/candidate-example.json
+  /{candidateId}:
+    get:
+      description: Get candidate information.
+      responses:
+        200:
+          body:
+            application/json:
+              type: Candidate
+              example: !include examples/candidate-example.json
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/error-example.json
+    put:
+      securedBy: [ oauth_2_0 ]
+      description: Update a candidate. Requesting user must be a team admin or higher.
+      body:
+        application/json:
+          type: Candidate
+          example: !include examples/candidate-example.json
+      responses:
+        200:
+          body:
+            application/json:
+              type: Candidate
+              example: !include examples/candidate-example.json
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/error-example.json
+    delete:
+      securedBy: [ oauth_2_0 ]
+      description: Delete a candidate by candidateId. Requesting user must be a site administrator.
+      responses:
+        204:
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/error-example.json
+    /issues:
+      get:
+        description: Get all issues for the candidate.
+        responses:
+          200:
+            body:
+              application/json:
+                type: CandidateIssue[]
+                example: !include examples/candidate-issues-example.json
+      post:
+        securedBy: [ oauth_2_0 ]
+        description: Create an issue for the candidate. Requesting user must be team editor or higher.
+        body:
+          application/json:
+            type: CandidateIssue
+            example: !include examples/candidate-issue-example.json
+        responses:
+          201:
+            body:
+              application/json:
+                type: CandidateIssue
+                example: !include examples/candidate-issue-example.json
+      /{issueId}:
+        get:
+          description: Get issue for this candidate by issueId.
+          responses:
+            200:
+              body:
+                application/json:
+                  type: CandidateIssue
+                  example: !include examples/candidate-issue-example.json
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: !include examples/error-example.json
+        put:
+          securedBy: [ oauth_2_0 ]
+          description: Update an issue for a candidate. Requesting user must be team editor or higher.
+          body:
+            application/json:
+              type: CandidateIssue
+              example: !include examples/candidate-issue-example.json
+          responses:
+            200:
+              body:
+                application/json:
+                  type: CandidateIssue
+                  example: !include examples/candidate-issue-example.json
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: !include examples/error-example.json
+        delete:
+          securedBy: [ oauth_2_0 ]
+          description: Delete an issue for a candidate by issueId. Requesting user must be team admin or higher.
+          responses:
+            204:
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: !include examples/error-example.json
+        /sections:
+          get:
+            description: Get all sections for the issue.
+            responses:
+              200:
+                body:
+                  application/json:
+                    type: CandidateIssueSection[]
+                    example: !include examples/candidate-issue-sections-example.json
+          post:
+            securedBy: [ oauth_2_0 ]
+            description: Create a candidate issue section. Requesting user must be team editor or higher.
+            body:
+              application/json:
+                type: CandidateIssueSection
+                example: !include examples/candidate-issue-section-example.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    type: CandidateIssueSection
+                    example: !include examples/candidate-issue-section-example.json
+          /{sectionId}:
+            get:
+              description: Get section for this issue by sectionId.
+              responses:
+                200:
+                  body:
+                    application/json:
+                      type: CandidateIssueSection
+                      example: !include examples/candidate-issue-section-example.json
+                404:
+                  body:
+                    application/json:
+                      type: Error
+                      example: !include examples/error-example.json
+            delete:
+              securedBy: [ oauth_2_0 ]
+              description: Delete a candidate issue section by sectionId. Requesting user must be team admin or higher.
+
+/issues:
+  get:
+    description: Get a list of all issues.
+    responses:
+      200:
+        body:
+          application/json:
+            type: Issue[]
+            example: !include examples/issues-example.json
+      404:
+        body:
+          application/json:
+            type: Error
+            example: !include examples/error-example.json
+  post:
+    securedBy: [ oauth_2_0 ]
+    description: Create an issue. Requesting user must be a site administrator.
+    body:
+      application/json:
+        type: Issue
+        example: !include examples/issue-example.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: Issue
+            example: !include examples/issue-example.json
+      404:
+        body:
+          application/json:
+            type: Error
+            example: !include examples/error-example.json
+  /{issueID}:
+    get:
+      description: Get an issue.
+      responses:
+        200:
+          body:
+            application/json:
+              type: Issue
+              example: !include examples/issue-example.json
+    put:
+      securedBy: [ oauth_2_0 ]
+      description: Update an issue.  Requesting user must be a site administrator.
+      body:
+        application/json:
+          type: Issue
+          example: !include examples/issue-example.json
+      responses:
+        200:
+          body:
+            application/json:
+              type: Issue
+              example: !include examples/issue-example.json
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/error-example.json
+    delete:
+      securedBy: [ oauth_2_0 ]
+      description: Delete an issue by issueId. Requesting user must be a site administrator.
+      responses:
+        204:
+        404:
+          body:
+            application/json:
+              type: Error
+              example: !include examples/error-example.json
+    /candidates:
+      get:
+        description: Get a list of all candidates with issue pages on the issue.
+        responses:
+          200:
+            body:
+              application/json:
+                type: Candidate[]
+                example: !include examples/candidates-example.json
+/user:
+  get:
+    securedBy: [ oauth_2_0 ]
+    description: Get the authenticated user.
+    responses:
+      200:
+        body:
+          application/json:
+            type: User
+            example: !include examples/user-example.json
+  put:
+    securedBy: [ oauth_2_0 ]
+    description: Update the authenticated user.
+    body:
+      application/json:
+        type: User
+        example: !include examples/user-example.json
+    responses:
+      200:
+        body:
+          application/json:
+            type: User
+            example: !include examples/user-example.json
+      404:
+        body:
+          application/json:
+            type: Error
+            example: !include examples/error-example.json
+  delete:
+    securedBy: [ oauth_2_0 ]
+    description: Delete the authenticated user.
+    responses:
+      204:
+      404:
+        body:
+          application/json:
+            type: Error
+            example: !include examples/error-example.json
+/users:
+  post:
+    description: Create a user.
+    body:
+      application/json:
+        type: User
+        example: !include examples/user-example.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: User
+            example: !include examples/user-example.json
+/teams:
+  /{teamId}:
+    /users:
+      get:
+        securedBy: [ oauth_2_0 ]
+        description: Get a list of all users that belong to the team. Requesting user must be a team admin or higher.
+        responses:
+          200:
+            body:
+              application/json:
+                type: User[]
+                example: !include examples/users-example.json
+    /suggestions:
+      get:
+        securedBy: [ oauth_2_0 ]
+        description: Get a list of all suggestions for a team. Requesting user must be team editor or higher.
+        responses:
+          200:
+            body:
+              application/json:
+                type: Suggestion[]
+                example: !include examples/suggestions-example.json
+      post:
+        description: Create a suggestion for a team.
+        body:
+          application/json:
+            type: Suggestion
+            example: !include examples/suggestion-example.json
+        responses:
+          200:
+            body:
+              application/json:
+                type: Suggestion
+                example: !include examples/suggestion-example.json
+      /{suggestionId}:
+        get:
+          securedBy: [ oauth_2_0 ]
+          description: Get a suggestion. Requesting user must be team editor or higher.
+          responses:
+            200:
+              body:
+                application/json:
+                  type: Suggestion
+                  example: !include examples/suggestion-example.json
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: !include examples/error-example.json
+        delete:
+          securedBy: [ oauth_2_0 ]
+          description: Delete a suggestion. Requesting user must be team editor or higher.
+          responses:
+            204:
+            404:
+              body:
+                application/json:
+                  type: Error
+                  example: !include examples/error-example.json

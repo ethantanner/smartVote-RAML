@@ -1,0 +1,17 @@
+{
+  "id": "19fd82fe52b96ef618db1225",
+  "name": "Bernie Sanders",
+  "createdAt": "2017-06-27T08:23:55+00:00",
+  "subtitle": "Independent Senator from Vermont",
+  "currentlyRunning": false,
+  "candidateFor": "President",
+  "officialCampaignWebsiteUri": "https://berniesanders.com/",
+  "facebookPageUri": "https://www.facebook.com/feelthebern.org",
+  "twitterUri": "https://twitter.com/feelthebernorg",
+  "googlePlusUri": "https://plus.google.com/+FeelthebernOrgFTB",
+  "language": "EN",
+  "image": {
+    "objectId": "",
+    "uri": "https://static.smart-vote.org/candidates/01e0e6eb43fba843c052a596"
+  }
+}
