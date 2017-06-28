@@ -33,6 +33,7 @@ traits:
     description: Get a list of candidates by date added, oldest first.
     queryParameters:
       popular?: boolean
+    is: [ pageable ]
     responses:
       200:
         body:
@@ -99,6 +100,7 @@ traits:
         description: Get all issues for the candidate.
         queryParameters:
           popular?: boolean
+        is: [ pageable ]
         responses:
           200:
             body:
@@ -163,6 +165,7 @@ traits:
         /sections:
           get:
             description: Get all sections for the issue.
+            is: [ pageable ]
             responses:
               200:
                 body:
@@ -205,6 +208,7 @@ traits:
     description: Get a list of all issues.
     queryParameters:
       popular?: boolean
+    is: [ pageable ]
     responses:
       200:
         body:
@@ -337,6 +341,7 @@ traits:
       get:
         securedBy: [ oauth_2_0 ]
         description: Get a list of all users that belong to the team. Requesting user must be a team admin or higher.
+        is: [ pageable ]
         responses:
           200:
             body:
@@ -347,6 +352,7 @@ traits:
       get:
         securedBy: [ oauth_2_0 ]
         description: Get a list of all suggestions for a team. Requesting user must be team editor or higher.
+        is: [ pageable ]
         responses:
           200:
             body:
