@@ -29,6 +29,16 @@ traits:
                 "ping" : "pong"
               }
 /candidates:
+  get:
+    description: Get a list of candidates by date added, oldest first.
+    queryParameters:
+      popular?: boolean
+    responses:
+      200:
+        body:
+          application/json:
+            type: Candidate[]
+            example: !include examples/candidates-example.json
   post:
     securedBy: [ oauth_2_0 ]
     description: Create a new candidate. Requesting user must be a site administrator.
@@ -87,6 +97,8 @@ traits:
     /issues:
       get:
         description: Get all issues for the candidate.
+        queryParameters:
+          popular?: boolean
         responses:
           200:
             body:
@@ -191,6 +203,8 @@ traits:
 /issues:
   get:
     description: Get a list of all issues.
+    queryParameters:
+      popular?: boolean
     responses:
       200:
         body:
