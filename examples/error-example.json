@@ -1,4 +1,9 @@
 {
-  "message" : "Not found",
-  "code" : 1001
+  "apiVersion": "1.0",
+  "errors": [
+    {
+      "status": 404,
+      "detail": "The resource was not found."
+    }
+  ]
 }

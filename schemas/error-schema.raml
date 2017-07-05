@@ -1,4 +1,10 @@
 type: object
 properties:
-  message: string
-  code: number
+  apiVersion: string
+  errors:
+    type: array
+    items:
+      type: object
+      properties:
+        status: number
+        detail: string
